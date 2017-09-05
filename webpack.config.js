@@ -1,3 +1,6 @@
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 module.exports = { 
 entry: __dirname + "/app/main.js",//已多次提及的唯一入口文件 
 output: { path: __dirname + "/public",//打包后的文件存放的地方 
@@ -8,7 +11,8 @@ devServer: {
 	contentBase: "./public",//服务器所在文件夹
 	historyApiFallback: true,//
 	inline: true,
-	port: "9090"
+	port: "9090",
+	hot: true
 },
 module: { 
 	rules: [ 
@@ -36,7 +40,14 @@ module: {
 		]
 	}
 	] 
-}
+},
+plugins: [
+   new webpack.BannerPlugin('版权所有，爱干嘛干嘛'),
+   new HtmlWebpackPlugin({
+   	  template: __dirname + "/app/index.tmpl.html"//new 一个这个插件的实例，并传入相关的参数
+   }),
+   new webpack.HotModuleReplacementPlugin()//热加载插件
+]
 
 }
 
